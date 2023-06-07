@@ -5,6 +5,7 @@ export const ContainerHeader = styled('div', {
     gap: '.75rem',
     alignItems: 'center',
     justifyContent: 'space-between',
+    maxWidth: '63rem',
     height: 'fit-content',
     marginBlock: '4.5rem 2.5rem',
 

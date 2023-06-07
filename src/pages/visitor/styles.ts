@@ -5,7 +5,7 @@ export const ContainerVisitor = styled('aside', {
     display: 'flex',
     justifyContent: 'center',
     margin: 'auto', 
-    maxWidth: '1380px',
+    maxWidth: '1580px',
     height: '100vh',
 
     variants: {

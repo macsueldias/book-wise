@@ -1,4 +1,5 @@
 import { styled } from "@/styles"
+import Image from "next/image"
 
 export const ReviewBook = styled('div', {
     position: 'absolute',
@@ -9,7 +10,8 @@ export const ReviewBook = styled('div', {
     display: 'flex',
     background: '$gray800',
     margin: 'auto',
-    overflow: 'hidden',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
     flexDirection: 'column',
 
     variants: {
@@ -121,17 +123,6 @@ export const Assess = styled('div', {
     background: '$gray700',
     padding: '2rem 1.5rem',
     borderRadius: 8,
-
-    textarea: {
-        background: '$gray800',
-        border: '1px solid $gray500',
-        outline: 'none',
-        borderRadius: 4,
-        color: '$gray400',
-        resize: 'vertical',
-        marginBlock: '1.5rem .75rem',
-        padding: '.875rem 1.25rem',
-    },
 })
 
 export const GroupButtonAssess = styled('div', {
@@ -157,8 +148,8 @@ export const GroupButtonAssess = styled('div', {
 export const Assessment = styled('div', {
     display: 'flex',
     flexDirection: 'column',
-    gap: '.75rem',
-    marginInline: '3rem',
+    gap: '.5rem',
+    margin: '2rem 3rem',
 
     '> div': {
         width: '35rem',
@@ -199,6 +190,40 @@ export const Review = styled('div', {
 export const HeaderReview = styled('div', {
     display: 'flex',
     justifyContent: 'space-between',
+
+})
+
+export const IconStar = styled(Image, {
+    color: 'red',
+})
+
+export const TextAssess = styled('div', {
+    position: 'relative',
+    width: '100%',
+    
+    span: {
+        position: 'absolute',
+        bottom: '1.5rem',
+        right: '1.5rem', 
+        fontSize: '.875rem',
+        color: '$gray400',  
+    },
+
+    textarea: {
+        background: '$gray800',
+        width: '100%',
+        border: '1px solid transparent',
+        outline: 'none',
+        borderRadius: 4,
+        color: '$gray400',
+        resize: 'none',
+        marginBlock: '1.5rem .75rem',
+        padding: '.875rem 1.25rem',
+
+        '&:focus': {
+            border: '1px solid $gray500',
+        }
+    },
 })
 
 export const Note = styled('p', {

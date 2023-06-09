@@ -67,3 +67,60 @@ export const Note = styled('p', {
     fontSize: '.875rem',
     lineHeight: '1.8'
 })
+
+export const ContentProfile = styled('div', {
+    display: 'flex',
+    gap: '4rem',
+})
+
+export const InfoProfile = styled('div', {
+    width: '20rem',
+    height: '34rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '2rem',
+    borderLeft: '1px solid $gray400',
+})
+
+export const InfoUser = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    
+    div: {
+        marginBlock: '1.25rem',
+    },
+
+    span: {
+        fontSize: '.875rem',
+        color: '$gray400',
+    }
+})
+
+export const Divider = styled('div', {
+    height: '.25rem',
+    width: '4rem',
+    background: '$gradient-horizontal',
+    borderRadius: '2px'
+})
+
+export const InfoBooks = styled('div', {
+    
+    
+    '> div': {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1.25rem',
+        marginBottom: '2.5rem',
+
+        span: {
+            display: 'block',
+            marginTop: '.5rem',
+            fontSize: '.875rem',
+            color: '$gray400',
+        }
+    },
+
+
+})

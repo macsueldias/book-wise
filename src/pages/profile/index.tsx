@@ -1,8 +1,8 @@
 import { Header } from "@/components/Header";
 import { SideBar } from "@/components/SideBar";
 import { ContainerMain } from "../visitor/styles";
-import { ContainerProfile, ContentBook, ContentBooks, HeaderBook, InfoBook, Note } from "./styles";
-import { BookOpen, MagnifyingGlass } from "@phosphor-icons/react";
+import { ContainerProfile, ContentBook, ContentBooks, ContentProfile, Divider, HeaderBook, InfoBook, InfoBooks, InfoProfile, InfoUser, Note } from "./styles";
+import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@phosphor-icons/react";
 import Image from "next/image";
 import { RatingStars } from "@/components/RatingStars";
 import { Avatar } from "@/components/Book/styles";
@@ -105,14 +105,51 @@ export default function Profile() {
                     </ContentBooks>
                     <InfoProfile>
                         <InfoUser>
-                            <Image src="" alt="" width={} height={} />
+                            <Avatar>
+                                <div>
+                                    <Image src="/images/avatar.jpg" alt="" width={72} height={72} />
+                                </div>
+                            </Avatar>
                             <h3>Cristofer Rosser</h3>
                             <span>membro desde 2019</span>
                         </InfoUser>
+                        <Divider />
                         <InfoBooks>
                             <div>
-                                <BookOpen />
-                                
+                                <span>
+                                    <BookOpen size={24} color="#50B2C0" />
+                                </span>
+                                <div>
+                                    <h5>3888</h5>
+                                    <span>Páginas Lidas</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span>
+                                    <Books size={24} color="#50B2C0" />
+                                </span>
+                                <div>
+                                    <h5>3888</h5>
+                                    <span>Páginas Lidas</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span>
+                                    <UserList size={24} color="#50B2C0" />
+                                </span>
+                                <div>
+                                    <h5>3888</h5>
+                                    <span>Páginas Lidas</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span>
+                                    <BookmarkSimple size={24} color="#50B2C0" />
+                                </span>
+                                <div>
+                                    <h5>3888</h5>
+                                    <span>Páginas Lidas</span>
+                                </div>
                             </div>
                         </InfoBooks>
                     </InfoProfile>

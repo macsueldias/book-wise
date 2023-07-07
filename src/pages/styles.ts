@@ -28,8 +28,15 @@ export const ContainerAcess = styled('div', {
       marginBottom: '$10'
     },
 
+    button: {
+      all: 'unset',
+      cursor: 'pointer',
+      border: 0,
+      outline: 'none',
+    },
+
     a: {
-      textDecoration: 'none'
+      textDecoration: 'none',
     }
 })
 

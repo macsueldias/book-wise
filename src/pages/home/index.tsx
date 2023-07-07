@@ -7,7 +7,7 @@ import { Book } from "@/components/Book";
 import { CaretRight } from "@phosphor-icons/react";
 import { BestBook } from "@/components/BestBook";
 
-export default function Visitor() {
+export default function Home() {
     return (
         <ContainerVisitor>
             <SideBar />

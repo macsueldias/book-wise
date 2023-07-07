@@ -1,7 +1,7 @@
 import { BookExplore } from "@/components/BookExplore";
 import { SideBar } from "@/components/SideBar";
 import { Header } from "@/components/Header";
-import { ContainerMain, ContainerVisitor } from "../visitor/styles";
+import { ContainerMain, ContainerVisitor } from "../home/styles";
 import { Button, ContainerExplore, OptionsSearch } from "./styles";
 import { BookDetails } from "@/components/BookDetails";
 import { useState } from "react";

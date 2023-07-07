@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { SideBar } from "@/components/SideBar";
-import { ContainerMain } from "../visitor/styles";
+import { ContainerMain } from "../home/styles";
 import { ContainerProfile, ContentBook, ContentBooks, ContentProfile, Divider, HeaderBook, InfoBook, InfoBooks, InfoProfile, InfoUser, Note } from "./styles";
 import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@phosphor-icons/react";
 import Image from "next/image";

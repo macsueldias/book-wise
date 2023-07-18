@@ -6,12 +6,15 @@ import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@pho
 import Image from "next/image";
 import { RatingStars } from "@/components/RatingStars";
 import { Avatar } from "@/components/Book/styles";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
 
 
 export default function Profile() {
     return (
         <ContainerProfile>
-            <SideBar />
+            <SideBar user="usuario"/>
             <ContainerMain>
                 <Header />
                 <form>
@@ -158,3 +161,26 @@ export default function Profile() {
         </ContainerProfile>
     )
 }
+
+
+// Apenas usuários logados poderão acessar a página
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const session = await getServerSession(
+      req,
+      res,
+      buildNextAuthOptions(req, res),
+    )
+  
+    if (!session) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: '/',
+        },
+      }
+    }
+  
+    return {
+      props: {},
+    }
+  }

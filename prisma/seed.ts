@@ -19,7 +19,6 @@ async function main() {
         id: user.id,
         name: user.name,
         avatar_url: user.avatar_url,
-        email: "macsueldias@hotmail.com",
       },
     })
   })

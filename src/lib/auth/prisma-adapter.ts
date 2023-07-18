@@ -1,8 +1,7 @@
 import { Adapter } from "next-auth/adapters"
 import { prisma } from "../prisma"
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
-import { destroyCookie, parseCookies, setCookie } from "nookies"
-import { useSession } from "next-auth/react"
+import {  setCookie } from "nookies"
 
 export function PrismaAdapter(  
   req: NextApiRequest | NextPageContext['req'],
@@ -54,7 +53,7 @@ export function PrismaAdapter(
       }
     },
     async getUserByEmail(email) {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findFirst({
         where: {
           email,
         },

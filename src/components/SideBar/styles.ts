@@ -17,6 +17,15 @@ export const ContainerSidebar = styled('aside', {
         display: 'flex',
         alignItems: 'center',
         gap: '.75rem',
+    },
+
+    button: {
+        all: 'unset',
+        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '.5rem',
+        fontWeight: '$bold',
     }
 })
 

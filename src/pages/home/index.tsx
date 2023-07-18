@@ -10,7 +10,7 @@ import { BestBook } from "@/components/BestBook";
 export default function Home() {
     return (
         <ContainerVisitor>
-            <SideBar />
+            <SideBar user="visitante" />
             <ContainerMain>
                 <Header />
                 <ContentVisitor>

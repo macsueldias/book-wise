@@ -8,7 +8,7 @@ import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter'
 import { setCookie } from 'nookies'
 
-export function builNextAuthOptions(
+export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
 ): NextAuthOptions {
@@ -71,5 +71,5 @@ export function builNextAuthOptions(
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   // Do whatever you want here, before the request is passed down to `NextAuth`
-  return await NextAuth(req, res, builNextAuthOptions(req, res))
+  return await NextAuth(req, res, buildNextAuthOptions(req, res))
 }

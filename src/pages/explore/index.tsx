@@ -6,13 +6,16 @@ import { Button, ContainerExplore, OptionsSearch } from "./styles";
 import { BookDetails } from "@/components/BookDetails";
 import { useState } from "react";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
 
 export default function Explore() {
     const [openDetails, setOpenDetails] = useState(false)
     return (
         <>
             <ContainerVisitor opacity={openDetails}>
-                <SideBar />
+                <SideBar user="usuario"/>
                 <ContainerMain >
                     <Header />
                     <ContainerExplore>
@@ -44,3 +47,25 @@ export default function Explore() {
         </>
     )
 }
+
+// Apenas usuários logados poderão acessar a página
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const session = await getServerSession(
+      req,
+      res,
+      buildNextAuthOptions(req, res),
+    )
+  
+    if (!session) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: '/',
+        },
+      }
+    }
+  
+    return {
+      props: {},
+    }
+  }

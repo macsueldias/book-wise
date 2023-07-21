@@ -1,12 +1,13 @@
-'use client'
-
-import { BookOpen, BookmarkSimple, Check, Star, X } from "@phosphor-icons/react";
-import { Assess, Assessment, AssessmentScore, ContainerBookDetails, Details, Divider, FooterInfoBook, GroupButtonAssess, HeaderReview, IconStar, InfoBook, Note, Review, ReviewBook, TextAssess, Title } from "./styles";
+import { useState } from "react";
 import Link from "next/link";
-import { Avatar, Reviewer } from "../Book/styles";
 import Image from "next/image";
+
+import { Assess, Assessment, AssessmentScore, ContainerBookDetails, Details, Divider, FooterInfoBook, GroupButtonAssess, HeaderReview, InfoBook, Note, Review, ReviewBook, TextAssess, Title } from "./styles";
+
+import { BookOpen, BookmarkSimple, Check, X } from "@phosphor-icons/react";
+
+import { Avatar, Reviewer } from "../Book/styles";
 import { RatingStars } from "../RatingStars";
-import { useEffect, useState } from "react";
 
 
 interface BookDetailsProps {

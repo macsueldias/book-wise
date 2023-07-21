@@ -1,6 +1,4 @@
-"use client"
-
-import { ChartLineUp, MagnifyingGlass } from "@phosphor-icons/react"
+import { ChartLineUp } from "@phosphor-icons/react"
 import { ContainerHeader } from "./styles"
 
 export function Header() {

@@ -1,9 +1,9 @@
-'use client'
 import Link from "next/link";
-import { ContainerSidebar, GroupMenu, ItemMenu, Logo } from "./styles";
-import { SignOut, Binoculars, ChartLineUp, User, SignIn } from "@phosphor-icons/react";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
+import { SignOut, Binoculars, ChartLineUp, User, SignIn } from "@phosphor-icons/react";
+
+import { ContainerSidebar, GroupMenu, ItemMenu, Logo } from "./styles";
 
 interface SidebarProps {
     user: 'visitante' | 'usuario'

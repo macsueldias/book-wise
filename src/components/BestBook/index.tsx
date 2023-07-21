@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { InfoBook } from "../Book/styles";
 import { ContainerBestBook } from "./styles";
 

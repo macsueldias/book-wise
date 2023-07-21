@@ -1,14 +1,17 @@
+import { GetServerSideProps } from "next";
+import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@phosphor-icons/react";
+
 import { Header } from "@/components/Header";
 import { SideBar } from "@/components/SideBar";
-import { ContainerMain } from "../home/styles";
-import { ContainerProfile, ContentBook, ContentBooks, ContentProfile, Divider, HeaderBook, InfoBook, InfoBooks, InfoProfile, InfoUser, Note } from "./styles";
-import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@phosphor-icons/react";
-import Image from "next/image";
 import { RatingStars } from "@/components/RatingStars";
 import { Avatar } from "@/components/Book/styles";
-import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
+
 import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
+
+import { ContainerMain } from "../home/styles";
+import { ContainerProfile, ContentBook, ContentBooks, ContentProfile, Divider, HeaderBook, InfoBook, InfoBooks, InfoProfile, InfoUser, Note } from "./styles";
 
 
 export default function Profile() {

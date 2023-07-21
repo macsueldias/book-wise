@@ -1,6 +1,15 @@
 import Image from "next/image";
-import { Avatar, ContainerBook, ContentBook, DescriptionBook, HeaderBook, InfoBook, Reviewer } from "./styles";
 import Link from "next/link";
+
+import { 
+    Avatar, 
+    ContainerBook, 
+    ContentBook, 
+    DescriptionBook, 
+    HeaderBook, 
+    InfoBook, 
+    Reviewer 
+} from "./styles";
 
 export function Book() {
     return (

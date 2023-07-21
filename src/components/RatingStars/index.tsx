@@ -1,7 +1,8 @@
-import { Container } from "./styles"
+import { useState } from "react"
 import { Star } from "@phosphor-icons/react"
 import { ComponentProps } from "@stitches/react"
-import { useState } from "react"
+
+import { Container } from "./styles"
 
 type RatingStarsProps = ComponentProps<typeof Container> & {
   rating: number

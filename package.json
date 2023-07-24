@@ -9,15 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fastify/cors": "^8.3.0",
     "@phosphor-icons/react": "^2.0.9",
     "@prisma/client": "^4.15.0",
     "@radix-ui/react-portal": "^1.0.3",
     "@stitches/react": "^1.2.8",
+    "@tanstack/react-query": "^4.32.0",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
     "axios": "^1.4.0",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
+    "fastify": "^4.20.0",
     "next": "13.4.4",
     "next-auth": "^4.22.1",
     "nookies": "^2.5.2",

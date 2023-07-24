@@ -1,17 +1,88 @@
+import { useState } from "react";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+
+import { api } from "@/lib/axios";
+import { useQueries } from "@tanstack/react-query";
+
 import { BookExplore } from "@/components/BookExplore";
 import { SideBar } from "@/components/SideBar";
 import { Header } from "@/components/Header";
+import { BookDetails } from "@/components/BookDetails";
+
+import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
+
 import { ContainerMain, ContainerVisitor } from "../home/styles";
 import { Button, ContainerExplore, OptionsSearch } from "./styles";
-import { BookDetails } from "@/components/BookDetails";
-import { useState } from "react";
-import Link from "next/link";
-import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
+
+type Category = {
+  id: string
+  name: string
+}
+
+type Rating = {
+    rate: number
+    book_id: string
+}
+
+type Books = {
+  id: string
+  name: string
+  author: string
+  summary: string
+  cover_url: string
+  categories: Category[]
+  ratings: Rating[]
+}
+
+interface ExploreProps {
+  books: Books[]
+  amountBook: number
+}
+
 
 export default function Explore() {
     const [openDetails, setOpenDetails] = useState(false)
+    const [books, setBooks] = useState<Books[]>([])
+    const [ratings, setRatings] = useState<Rating[]>([])
+    const [categories, setCategories] = useState<Category[]>([])
+
+    const [BookQuery, ratingQuery] = useQueries({
+      queries: [
+        {
+          queryKey: ['book'],
+          queryFn: () =>
+            api
+              .get('books')
+              .then((res) => setBooks(res.data)), 
+        },
+
+        {
+          queryKey: ['rating'],
+          queryFn: () =>
+            api
+              .get('ratings')
+              .then((res) => setRatings(res.data)),
+        },
+
+        {
+          queryKey: ['categories'],
+          queryFn: () =>
+            api
+              .get('categories')
+              .then((res) => setCategories(res.data)),
+        },
+      ],
+    })
+
+    // function handleFilterCategoryBook(category: string) {
+    //   const c = books.map((book) => {
+    //     const contem = book.categories
+    //     return contem
+    //   })
+    //   console.log(c) 
+    // }
+         
     return (
         <>
             <ContainerVisitor opacity={openDetails}>
@@ -21,25 +92,33 @@ export default function Explore() {
                     <ContainerExplore>
                         <OptionsSearch>
                             <Button active={true}>Tudo</Button>
-                            <Button>Computação</Button>
-                            <Button>Educação</Button>
-                            <Button>Fantasia</Button>
+                            {/* <Button onClick={() => handleFilterCategoryBook("Computação")}>Computação</Button> */}
+                            {categories.map((category) => {
+                              return (
+                                <Button key={category.id}>{category.name}</Button>
+                              )
+                            })}
+                            {/* <Button>Educação</Button>
                             <Button>Ficção Cientifica</Button>
                             <Button>Horror</Button>
                             <Button>HQs</Button>
-                            <Button>Suspense</Button>
+                            <Button>Suspense</Button> */}
                         </OptionsSearch>
-                        <button type="button" onClick={() => setOpenDetails(!openDetails)}>
-                            <BookExplore  />
-                        </button>
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
-                        <BookExplore />
+                        {/* {books.map((book) => {
+                          const rate = ratings.find(rating => rating.book_id === book.id)!.rate
+                          return (
+                          <button key={book.id} type="button" onClick={() => setOpenDetails(!openDetails)}>
+                              <BookExplore 
+                                id={book.id}
+                                author={book.author} 
+                                title={book.name} 
+                                image_url={book.cover_url}
+                                rate={rate}
+                              />
+                          </button>
+                          )
+                        })} */}
+                        
                     </ContainerExplore>
                 </ContainerMain>
             </ContainerVisitor>

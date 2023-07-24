@@ -1,11 +1,11 @@
-"use client"
+import { CaretRight } from "@phosphor-icons/react";
 
 import { Header } from "@/components/Header";
 import { SideBar } from "@/components/SideBar";
-import { BestBooks, Books, ContainerMain, ContainerVisitor, ContentVisitor } from "./styles";
 import { Book } from "@/components/Book";
-import { CaretRight } from "@phosphor-icons/react";
 import { BestBook } from "@/components/BestBook";
+
+import { BestBooks, Books, ContainerMain, ContainerVisitor, ContentVisitor } from "./styles";
 
 export default function Home() {
     return (

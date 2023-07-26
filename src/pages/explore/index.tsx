@@ -35,6 +35,11 @@ type Books = {
   ratings: Rating[]
 }
 
+type BookCategory = {
+  bookId: string
+  categoryId: string
+}
+
 interface ExploreProps {
   books: Books[]
   amountBook: number
@@ -46,6 +51,7 @@ export default function Explore() {
     const [books, setBooks] = useState<Books[]>([])
     const [ratings, setRatings] = useState<Rating[]>([])
     const [categories, setCategories] = useState<Category[]>([])
+    const [bookCategory, setBookCategory] = useState<BookCategory[]>([])
 
     const [BookQuery, ratingQuery] = useQueries({
       queries: [
@@ -72,16 +78,20 @@ export default function Explore() {
               .get('categories')
               .then((res) => setCategories(res.data)),
         },
+
+        {
+          queryKey: ['bookcategory'],
+          queryFn: () =>
+            api
+              .get('bookCategory')
+              .then((res) => setBookCategory(res.data)),
+        },
       ],
     })
 
-    // function handleFilterCategoryBook(category: string) {
-    //   const c = books.map((book) => {
-    //     const contem = book.categories
-    //     return contem
-    //   })
-    //   console.log(c) 
-    // }
+    console.log(books)
+
+   
          
     return (
         <>
@@ -95,7 +105,7 @@ export default function Explore() {
                             {/* <Button onClick={() => handleFilterCategoryBook("Computação")}>Computação</Button> */}
                             {categories.map((category) => {
                               return (
-                                <Button key={category.id}>{category.name}</Button>
+                                <Button  key={category.id}>{category.name}</Button>
                               )
                             })}
                             {/* <Button>Educação</Button>
@@ -104,7 +114,7 @@ export default function Explore() {
                             <Button>HQs</Button>
                             <Button>Suspense</Button> */}
                         </OptionsSearch>
-                        {/* {books.map((book) => {
+                        {books.map((book) => {
                           const rate = ratings.find(rating => rating.book_id === book.id)!.rate
                           return (
                           <button key={book.id} type="button" onClick={() => setOpenDetails(!openDetails)}>
@@ -117,7 +127,7 @@ export default function Explore() {
                               />
                           </button>
                           )
-                        })} */}
+                        })}
                         
                     </ContainerExplore>
                 </ContainerMain>

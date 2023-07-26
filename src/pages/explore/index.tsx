@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 
 import { api } from "@/lib/axios";
-import { useQueries } from "@tanstack/react-query";
+import { QueryClient, useQueries } from "@tanstack/react-query";
 
 import { BookExplore } from "@/components/BookExplore";
 import { SideBar } from "@/components/SideBar";
@@ -51,15 +51,20 @@ export default function Explore() {
     const [books, setBooks] = useState<Books[]>([])
     const [ratings, setRatings] = useState<Rating[]>([])
     const [categories, setCategories] = useState<Category[]>([])
-    const [bookCategory, setBookCategory] = useState<BookCategory[]>([])
+    const [categorySelected, setCategorySelected] = useState('c9f22067-4978-4a24-84a1-7d37f343dfc2')
+    const queryClient = new QueryClient()
 
     const [BookQuery, ratingQuery] = useQueries({
       queries: [
         {
-          queryKey: ['book'],
+          queryKey: ['book', categorySelected],
           queryFn: () =>
             api
-              .get('books')
+              .get('books', {
+                params: {
+                  category: categorySelected,
+                }
+              })
               .then((res) => setBooks(res.data)), 
         },
 
@@ -78,20 +83,17 @@ export default function Explore() {
               .get('categories')
               .then((res) => setCategories(res.data)),
         },
-
-        {
-          queryKey: ['bookcategory'],
-          queryFn: () =>
-            api
-              .get('bookCategory')
-              .then((res) => setBookCategory(res.data)),
-        },
       ],
-    })
+    })   
 
-    console.log(books)
 
-   
+    useEffect(() => {
+      queryClient.invalidateQueries({
+        queryKey: [categorySelected],
+        exact: true,
+      })
+    },[categorySelected])
+
          
     return (
         <>
@@ -105,7 +107,7 @@ export default function Explore() {
                             {/* <Button onClick={() => handleFilterCategoryBook("Computação")}>Computação</Button> */}
                             {categories.map((category) => {
                               return (
-                                <Button  key={category.id}>{category.name}</Button>
+                                <Button onClick={() => setCategorySelected(category.id)}  key={category.id}>{category.name}</Button>
                               )
                             })}
                             {/* <Button>Educação</Button>

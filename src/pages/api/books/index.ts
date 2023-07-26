@@ -1,5 +1,10 @@
 import { prisma } from '@/lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const categoyBodySchema = z.object({
+  category: z.string(),
+})
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,13 +14,14 @@ export default async function handler(
     return res.status(405).end()
   }
 
+  const { category } = categoyBodySchema.parse(req.query)
+
   const books = await prisma.book.findMany({
     where: {
       categories: {
           some: {
-            categoryId: "c9f22067-4978-4a24-84a1-7d37f343dfc2",
-          } 
-     
+            categoryId: category,
+          }
       }
     }
   })

@@ -1,7 +1,9 @@
 import { GetServerSideProps } from "next";
+import {useState} from 'react'
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { BookOpen, BookmarkSimple, Books, MagnifyingGlass, UserList } from "@phosphor-icons/react";
+import { compareAsc, format, parse } from 'date-fns'
 
 import { Header } from "@/components/Header";
 import { SideBar } from "@/components/SideBar";
@@ -12,9 +14,44 @@ import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
 
 import { ContainerMain } from "../home/styles";
 import { ContainerProfile, ContentBook, ContentBooks, ContentProfile, Divider, HeaderBook, InfoBook, InfoBooks, InfoProfile, InfoUser, Note } from "./styles";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/axios";
+import { parseCookies } from "nookies";
+
+interface UserProps {
+    avatar_url: string
+    created_at: string
+    email: string
+    id: string
+    name: string
+    username: string | null
+}
 
 
 export default function Profile() {
+    const [user, setUser] = useState<UserProps>({} as UserProps)
+    const [data, setData] = useState('')
+
+    const cookies = parseCookies()
+    const id = cookies['@ignitecall:userId']
+
+    const { isLoading, error } = useQuery(['profile'], async () => {
+        const {data} = await api.get("/profile", {
+          params: {
+            id,
+          }
+        });
+        return data
+    }, {
+        enabled: !!user,
+        onSuccess(data) {
+            setUser(data)
+            setData(data.created_at)
+        }
+    })
+
+
+
     return (
         <ContainerProfile>
             <SideBar user="usuario"/>
@@ -109,56 +146,58 @@ export default function Profile() {
                             </Note>
                         </ContentBook>
                     </ContentBooks>
-                    <InfoProfile>
-                        <InfoUser>
-                            <Avatar>
+                    {isLoading ? (<p>Carregando...</p>) : error ? (<p>Erro..</p>) : (
+                        <InfoProfile>
+                            <InfoUser>
+                                <Avatar>
+                                    <div>
+                                        <Image src={user.avatar_url} alt="" width={72} height={72} />
+                                    </div>
+                                </Avatar>
+                                <h3>{user.name}</h3>
+                                <span>membro desde {new Date(user.created_at).getFullYear()}</span>
+                            </InfoUser>
+                            <Divider />
+                            <InfoBooks>
                                 <div>
-                                    <Image src="/images/avatar.jpg" alt="" width={72} height={72} />
+                                    <span>
+                                        <BookOpen size={24} color="#50B2C0" />
+                                    </span>
+                                    <div>
+                                        <h5>3888</h5>
+                                        <span>Páginas Lidas</span>
+                                    </div>
                                 </div>
-                            </Avatar>
-                            <h3>Cristofer Rosser</h3>
-                            <span>membro desde 2019</span>
-                        </InfoUser>
-                        <Divider />
-                        <InfoBooks>
-                            <div>
-                                <span>
-                                    <BookOpen size={24} color="#50B2C0" />
-                                </span>
                                 <div>
-                                    <h5>3888</h5>
-                                    <span>Páginas Lidas</span>
+                                    <span>
+                                        <Books size={24} color="#50B2C0" />
+                                    </span>
+                                    <div>
+                                        <h5>3888</h5>
+                                        <span>Páginas Lidas</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <span>
-                                    <Books size={24} color="#50B2C0" />
-                                </span>
                                 <div>
-                                    <h5>3888</h5>
-                                    <span>Páginas Lidas</span>
+                                    <span>
+                                        <UserList size={24} color="#50B2C0" />
+                                    </span>
+                                    <div>
+                                        <h5>3888</h5>
+                                        <span>Páginas Lidas</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <span>
-                                    <UserList size={24} color="#50B2C0" />
-                                </span>
                                 <div>
-                                    <h5>3888</h5>
-                                    <span>Páginas Lidas</span>
+                                    <span>
+                                        <BookmarkSimple size={24} color="#50B2C0" />
+                                    </span>
+                                    <div>
+                                        <h5>3888</h5>
+                                        <span>Páginas Lidas</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <span>
-                                    <BookmarkSimple size={24} color="#50B2C0" />
-                                </span>
-                                <div>
-                                    <h5>3888</h5>
-                                    <span>Páginas Lidas</span>
-                                </div>
-                            </div>
-                        </InfoBooks>
-                    </InfoProfile>
+                            </InfoBooks>
+                        </InfoProfile>
+                    )}
                 </ContentProfile>
             </ContainerMain>
         </ContainerProfile>

@@ -8,7 +8,13 @@ export default async function handler(
 
   if(req.method !== "GET") return res.status(405).end()
 
-	const categories = await prisma.category.findMany();
+  const id = req.query.id as string
 
-	return res.json({ categories })
+	const user = await prisma.user.findUnique({
+        where: {
+            id,
+        }
+    });
+
+	return res.json(user)
 }

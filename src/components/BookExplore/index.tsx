@@ -8,10 +8,10 @@ interface BookExploreProps {
     title: string
     author: string
     image_url: string
-    rate: number
+    // rate: number
 }
 
-export function BookExplore({id, title, author, image_url, rate}: BookExploreProps) {
+export function BookExplore({id, title, author, image_url}: BookExploreProps) {
 
     const image = image_url.replace("public/", "http://localhost:3000/")
 
@@ -23,7 +23,7 @@ export function BookExplore({id, title, author, image_url, rate}: BookExplorePro
                     {title}  
                     <span>{author}</span>
                 </p>
-                <RatingStars rating={rate} />
+                {/* <RatingStars rating={rate} /> */}
             </InfoBook>
         </Book>
     )

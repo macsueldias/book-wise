@@ -9,7 +9,9 @@ export default async function handler(
     return res.status(405).end()
   }
 
+  
   const rating = await prisma.rating.findMany()
+  console.log(rating)
 
   return res.status(201).json(rating)
 }

@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 
 import { api } from "@/lib/axios";
-import { QueryClient, useQueries } from "@tanstack/react-query";
+import { QueryClient, useQueries, useQuery } from "@tanstack/react-query";
 
 import { BookExplore } from "@/components/BookExplore";
 import { SideBar } from "@/components/SideBar";
@@ -14,6 +14,7 @@ import { buildNextAuthOptions } from "../api/auth/[...nextauth]";
 
 import { ContainerMain, ContainerVisitor } from "../home/styles";
 import { Button, ContainerExplore, OptionsSearch } from "./styles";
+import { Category } from "@/components/Category";
 
 type Category = {
   id: string
@@ -25,7 +26,7 @@ type Rating = {
     book_id: string
 }
 
-type Books = {
+type Book = {
   id: string
   name: string
   author: string
@@ -35,65 +36,35 @@ type Books = {
   ratings: Rating[]
 }
 
-type BookCategory = {
-  bookId: string
-  categoryId: string
-}
-
-interface ExploreProps {
-  books: Books[]
-  amountBook: number
+type BookWithAvgRating = Book & {
+  avgRating: number
+  alreadyRead: boolean
 }
 
 
 export default function Explore() {
     const [openDetails, setOpenDetails] = useState(false)
-    const [books, setBooks] = useState<Books[]>([])
-    const [ratings, setRatings] = useState<Rating[]>([])
-    const [categories, setCategories] = useState<Category[]>([])
-    const [categorySelected, setCategorySelected] = useState('c9f22067-4978-4a24-84a1-7d37f343dfc2')
-    const queryClient = new QueryClient()
+    const [search, setSearch] = useState("")
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-    const [BookQuery, ratingQuery] = useQueries({
-      queries: [
-        {
-          queryKey: ['book', categorySelected],
-          queryFn: () =>
-            api
-              .get('books', {
-                params: {
-                  category: categorySelected,
-                }
-              })
-              .then((res) => setBooks(res.data)), 
-        },
-
-        {
-          queryKey: ['rating'],
-          queryFn: () =>
-            api
-              .get('ratings')
-              .then((res) => setRatings(res.data)),
-        },
-
-        {
-          queryKey: ['categories'],
-          queryFn: () =>
-            api
-              .get('categories')
-              .then((res) => setCategories(res.data)),
-        },
-      ],
-    })   
+    const { data: categories } = useQuery<Category[]>(["categories"], async () => {
+      const { data } = await api.get("categories");
+      return data?.categories ?? []
+    })
+  
+    const { data: books } = useQuery<BookWithAvgRating[]>(["books", selectedCategory], async () => {
+      const { data } = await api.get("/books", {
+        params: {
+          category: selectedCategory
+        }
+      });
+      return data?.books ?? []
+    })
 
 
-    useEffect(() => {
-      queryClient.invalidateQueries({
-        queryKey: [categorySelected],
-        exact: true,
-      })
-    },[categorySelected])
-
+    const filteredBooks = books?.filter((book) => {
+      return book.name.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())
+    })
          
     return (
         <>
@@ -102,35 +73,27 @@ export default function Explore() {
                 <ContainerMain >
                     <Header />
                     <ContainerExplore>
-                        <OptionsSearch>
-                            <Button active={true}>Tudo</Button>
-                            {/* <Button onClick={() => handleFilterCategoryBook("Computação")}>Computação</Button> */}
-                            {categories.map((category) => {
-                              return (
-                                <Button onClick={() => setCategorySelected(category.id)}  key={category.id}>{category.name}</Button>
-                              )
-                            })}
-                            {/* <Button>Educação</Button>
-                            <Button>Ficção Cientifica</Button>
-                            <Button>Horror</Button>
-                            <Button>HQs</Button>
-                            <Button>Suspense</Button> */}
-                        </OptionsSearch>
-                        {books.map((book) => {
-                          const rate = ratings.find(rating => rating.book_id === book.id)!.rate
-                          return (
-                          <button key={book.id} type="button" onClick={() => setOpenDetails(!openDetails)}>
-                              <BookExplore 
-                                id={book.id}
-                                author={book.author} 
-                                title={book.name} 
-                                image_url={book.cover_url}
-                                rate={rate}
-                              />
-                          </button>
-                          )
-                        })}
-                        
+                    <OptionsSearch>
+                      <Button active={true} onClick={() => setSelectedCategory(null)}>Tudo</Button>
+                      
+                      {categories?.map((category, i) => (
+                        <Button 
+                          active={selectedCategory === category.id} onClick={() => setSelectedCategory(category.id)}
+                          key={category.id}>{category.name}
+                        </Button>
+                      ))}
+                    </OptionsSearch>
+                    {filteredBooks?.map((book) => (
+                      <button key={book.id} type="button" onClick={() => setOpenDetails(!openDetails)}>
+                          <BookExplore 
+                            id={book.id}
+                            author={book.author} 
+                            title={book.name} 
+                            image_url={book.cover_url}
+                            // rate={rate}
+                          />
+                      </button>
+                    ))}
                     </ContainerExplore>
                 </ContainerMain>
             </ContainerVisitor>

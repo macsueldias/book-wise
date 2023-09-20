@@ -8,18 +8,24 @@ export default async function handler(
 
   if(req.method !== "GET") return res.status(405).end()
 
-  const categoryId = req.query.category as string
+  const name = req.query.name as string
 
-	const books = await prisma.category.findMany({
+  const books = await prisma.book.findMany({
     where: {
-      books: {
-        some: {
-          book_id: categoryId
-        }
-      }
-    }
+      OR: [
+        {
+          name: {
+            contains: name,
+          },
+        },
+        {
+          author: {
+            contains: name,
+          },
+        },
+      ],
+    },
   })
-
 
 	return res.json({ books })
 }

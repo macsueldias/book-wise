@@ -32,6 +32,7 @@ type Book = {
   author: string
   summary: string
   cover_url: string
+  total_pages: number
   categories: Category[]
   ratings: Rating[]
 }
@@ -46,6 +47,7 @@ export default function Explore() {
     const [openDetails, setOpenDetails] = useState(false)
     const [search, setSearch] = useState("")
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+    const [bookSelected, setBookSelected] = useState({} as Book)
 
     const { data: categories } = useQuery<Category[]>(["categories"], async () => {
       const { data } = await api.get("categories");
@@ -53,7 +55,7 @@ export default function Explore() {
     })
   
     const { data: books } = useQuery<BookWithAvgRating[]>(["books", selectedCategory], async () => {
-      const { data } = await api.get("/books", {
+      const { data } = await api.get("books", {
         params: {
           category: selectedCategory
         }
@@ -65,18 +67,27 @@ export default function Explore() {
     const filteredBooks = books?.filter((book) => {
       return book.name.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())
     })
+
+    function handleOpenDetails(book: Book) {
+      if(!book) {
+        return null
+      } else {
+        setOpenDetails(!openDetails)
+        setBookSelected(book)
+      }
+    }
          
     return (
         <>
             <ContainerVisitor opacity={openDetails}>
                 <SideBar user="usuario"/>
                 <ContainerMain >
-                    <Header />
-                    <ContainerExplore>
+                  <Header />
+                  <ContainerExplore>
                     <OptionsSearch>
                       <Button active={true} onClick={() => setSelectedCategory(null)}>Tudo</Button>
                       
-                      {categories?.map((category, i) => (
+                      {categories?.map((category) => (
                         <Button 
                           active={selectedCategory === category.id} onClick={() => setSelectedCategory(category.id)}
                           key={category.id}>{category.name}
@@ -84,7 +95,7 @@ export default function Explore() {
                       ))}
                     </OptionsSearch>
                     {filteredBooks?.map((book) => (
-                      <button key={book.id} type="button" onClick={() => setOpenDetails(!openDetails)}>
+                      <button key={book.id} type="button" onClick={() => handleOpenDetails(book)}>
                           <BookExplore 
                             id={book.id}
                             author={book.author} 
@@ -94,10 +105,10 @@ export default function Explore() {
                           />
                       </button>
                     ))}
-                    </ContainerExplore>
+                  </ContainerExplore>
                 </ContainerMain>
             </ContainerVisitor>
-            <BookDetails status={openDetails} />
+            <BookDetails book={bookSelected} status={openDetails} setStatus={setOpenDetails} />
         </>
     )
 }

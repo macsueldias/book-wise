@@ -9,9 +9,13 @@ export default async function handler(
     return res.status(405).end()
   }
 
+  const book_id = req.query.id as string
   
-  const rating = await prisma.rating.findMany()
-  console.log(rating)
+  const rating = await prisma.rating.findMany({
+    where: {
+      book_id,
+    }
+  })
 
   return res.status(201).json(rating)
 }

@@ -13,7 +13,7 @@ export function Category() {
     const [category, setCategory] = useState<Category[]>([])
 
     const { isLoading, error } = useQuery<Category>(['category'] , async () => {
-        const response = await api.get(`/categories`)
+        const response = await api.get(`categories`)
         const data = await response.data
         setCategory(data)
         return data

@@ -36,7 +36,7 @@ export default function Profile() {
     const id = cookies['@ignitecall:userId']
 
     const { isLoading, error } = useQuery(['profile'], async () => {
-        const {data} = await api.get("/profile", {
+        const {data} = await api.get("profile", {
           params: {
             id,
           }

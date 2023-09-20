@@ -39,6 +39,20 @@ export const ContainerBookDetails = styled('div', {
     padding: '1.5rem 2rem',
     background: '$gray700',
     borderRadius: '10px',
+
+    '.btn-close': {
+        width: '2rem',
+        height: '2rem',
+        borderRadius: '$sm',
+        background: '#d4d4d4',
+        color: '$gray800',
+
+        '&:hover': {
+            background: '$purple100',
+            color: '#d4d4d4',
+            cursor: 'pointer'
+        }
+    }
 })
 
 
@@ -160,6 +174,15 @@ export const Assessment = styled('div', {
             color: 'red',
         },
     
+        '> button': {
+            all: 'unset',
+            display: 'block',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            color: '$purple100',
+            cursor: 'pointer',
+        },
+
         a: {
             display: 'block',
             fontWeight: 'bold',

@@ -11,7 +11,7 @@ interface BookExploreProps {
     // rate: number
 }
 
-export function BookExplore({id, title, author, image_url}: BookExploreProps) {
+export function BookExplore({title, author, image_url}: BookExploreProps) {
 
     const image = image_url.replace("public/", "http://localhost:3000/")
 

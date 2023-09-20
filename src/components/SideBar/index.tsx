@@ -15,7 +15,7 @@ export function SideBar({user}: SidebarProps) {
         <ContainerSidebar>
             <Logo src="/logo.svg" alt="Logotipo Book Wise" width={128} height={32}/>
             <GroupMenu>
-                <Link href="/" aria-checked>
+                <Link href="/home" aria-checked>
                     <ItemMenu>
                     <ChartLineUp size={24} weight="regular" /> Inicio        
                     </ItemMenu>
